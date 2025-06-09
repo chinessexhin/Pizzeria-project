@@ -3,13 +3,15 @@ import Home from './components/Home'
 import Footer from './components/Footer'
 import Register from './components/Register'
 import './App.css'
+import Login from './components/Login'
 
 function App() {
 
   return (
     <>
       <Navbar/>
-      <Register />
+      {/* <Register /> */}
+      <Login />
       {/* <Home/> */}
       <Footer/>
     </>
