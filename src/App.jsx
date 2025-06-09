@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar'
-import Header from './components/Header'
 import Home from './components/Home'
 import Footer from './components/Footer'
+import Register from './components/Register'
 import './App.css'
 
 function App() {
@@ -9,8 +9,8 @@ function App() {
   return (
     <>
       <Navbar/>
-      <Header/>
-      <Home/>
+      <Register />
+      {/* <Home/> */}
       <Footer/>
     </>
   )

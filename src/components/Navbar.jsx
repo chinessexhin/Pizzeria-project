@@ -13,8 +13,8 @@ const Navbar = () => {
         <button type="button" className="btn btn-dark">🍕Home</button>
         <button type="button" className="btn btn-dark">🔐 Profile</button>
             {/* <button type="button" className="btn btn-dark">🔓 Logout</button> */}
-            <button type="button" className="btn btn-dark">🔐 Login</button>
-            <button type="button" className="btn btn-dark">📝 Register</button>
+            <button type="button" className="btn btn-dark" onClick={() => window.location.href = "/Login"} >🔐 Login</button>
+            <button type="button" className="btn btn-dark" onClick={() => window.location.href = "/Register"}>📝 Register</button>
       </div>
     </div>
 

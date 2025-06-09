@@ -1,8 +1,10 @@
+import Header from "./Header";
 import CardPizza from "./CardPizza";
 
 const Home = () => {
   return (
     <>
+    <Header />
       <main className="Cards d-flex p-5">
         <CardPizza 
           className="card" 
