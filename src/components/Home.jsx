@@ -1,5 +1,5 @@
 import Header from "./Header";
-import CardPizza from "./CardPizza";
+import CardPizza from "./Cards/CardPizza";
 
 const Home = () => {
   return (
@@ -38,6 +38,7 @@ const Home = () => {
           button= "Ver más"
           button2="Añadir 🛒"
         />
+
       </main>
     </>
   );

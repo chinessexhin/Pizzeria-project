@@ -19,7 +19,7 @@ const Navbar = () => {
     </div>
 
     <div className="navbar-nav ml-auto justify-content-start">
-      <button type="button" className="btn btn-dark">🛒 Total: {}</button>
+      <button type="button" className="btn btn-dark">🛒 Total: ${25000}</button>
     </div>
   </nav>
 );
