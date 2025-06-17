@@ -13,7 +13,7 @@ function App() {
       <Navbar/>
       {/* <Register /> */}
       {/* <Login /> */}
-      {/* <Home/> */}
+      <Home/>
       <Cart />
       <Footer/>
     </>
