@@ -1,28 +1,29 @@
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-
   const total = 25000;
-  const token = false;
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div className="container-fluid justify-content-start">
-      <a className="navbar-brand" href="/Home">Pizzería Mamma Mia!</a>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+      <div className="container-fluid d-flex justify-content-between align-items-center">
 
-      <div className="button-container2">
-        <button type="button" className="btn btn-dark">🍕Home</button>
-        <button type="button" className="btn btn-dark">🔐 Profile</button>
-            {/* <button type="button" className="btn btn-dark">🔓 Logout</button> */}
-            <button type="button" className="btn btn-dark" onClick={() => window.location.href = "/Login"} >🔐 Login</button>
-            <button type="button" className="btn btn-dark" onClick={() => window.location.href = "/Register"}>📝 Register</button>
+        <Link className="navbar-brand" to="/">Pizzería Mamma Mia!</Link>
+
+        <div className="d-flex gap-2">
+          <Link to="/" className="btn btn-dark">🍕 Home</Link>
+          <Link to="/profile" className="btn btn-dark">👤 Profile</Link>
+          <Link to="/login" className="btn btn-dark">🔐 Login</Link>
+          <Link to="/register" className="btn btn-dark">📝 Register</Link>
+        </div>
+
+        <div>
+          <Link to="/cart" className="btn btn-success">
+            🛒 Total: ${total.toLocaleString()}
+          </Link>
+        </div>
       </div>
-    </div>
-
-    <div className="navbar-nav ml-auto justify-content-start">
-      <button type="button" className="btn btn-dark">🛒 Total: ${25000}</button>
-    </div>
-  </nav>
-);
-};
+    </nav>
+  )
+}
 
 export default Navbar;
