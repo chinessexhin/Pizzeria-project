@@ -21,21 +21,20 @@ const Home = () => {
     fetchPizzas();
   }, []);
 
-  if (loading) return <p>Cargando pizzas...</p>;
+  if (loading) return <p className="p-4">Cargando pizzas...</p>;
 
   return (
     <>
       <Header />
-      <main className="Cards d-flex p-5 flex-wrap gap-3">
+      <main className="Cards d-flex p-5 flex-wrap gap-3 justify-content-center">
         {pizzas.map((pizza) => (
           <CardPizza
             key={pizza.id}
-            className="card"
-            style={{ width: "14rem" }}
+            id={pizza.id}
             img={pizza.img}
             title={`Pizza ${pizza.name}`}
             text={`Ingredientes: 🍕 ${pizza.ingredients.join(", ")}`}
-            price={`Precio: $${pizza.price.toLocaleString()}`}
+            price={pizza.price}
             button="Ver más"
             button2="Añadir 🛒"
           />

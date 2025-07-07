@@ -1,63 +1,54 @@
-import { useState } from "react"
-import { pizzaCart } from "../components/Cards/pizzas"; 
+import { useCart } from "../components/Context/CartContext.jsx";
 
 const Cart = () => {
-  const [cart, setCart] = useState(pizzaCart);
+  const {
+    cartItems,
+    total,
+    addToCart,
+    updateQuantity,
+    removeFromCart
+  } = useCart();
 
-  const calcularTotal = () => {
-    let total = 0;
-    cart.forEach((item) => {
-      total += item.price * item.count;
-    });
-    return total;
+  const restarCantidad = (id, currentQty) => {
+    if (currentQty <= 1) {
+      removeFromCart(id);
+    } else {
+      updateQuantity(id, currentQty - 1);
+    }
   };
 
-  const restarCantidad = (id) => {
-    const nuevoCart = cart.map((item) => {
-      if (item.id === id) {
-        return { ...item, count: Math.max(item.count - 1, 0) };
-      }
-      return item;
-    });
-    setCart(nuevoCart);
-  };
-
-  const aumentarCantidad = (id) => {
-    const nuevoCart = cart.map((item) => {
-      if (item.id === id) {
-        return { ...item, count: item.count + 1 };
-      }
-      return item;
-    });
-    setCart(nuevoCart);
+  const aumentarCantidad = (item) => {
+    addToCart(item);
   };
 
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
       <h4 className="mb-4">Detalles del pedido:</h4>
 
-      {cart.map((item) => (
+      {cartItems.map((item) => (
         <div key={item.id} className="d-flex align-items-center mb-3">
-          <img
-            src={item.img}
-            alt={item.name}
-            style={{ width: "60px", height: "60px", objectFit: "cover" }}
-          />
+          {item.img && (
+            <img
+              src={item.img}
+              alt={item.title}
+              style={{ width: "60px", height: "60px", objectFit: "cover" }}
+            />
+          )}
           <div className="ms-3" style={{ flex: 1 }}>
-            <div>{item.name}</div>
+            <div>{item.title}</div>
             <div>${item.price.toLocaleString()}</div>
           </div>
           <div className="d-flex align-items-center">
             <button
               className="btn btn-outline-danger btn-sm me-1"
-              onClick={() => restarCantidad(item.id)}
+              onClick={() => restarCantidad(item.id, item.quantity)}
             >
               -
             </button>
-            <span>{item.count}</span>
+            <span>{item.quantity}</span>
             <button
               className="btn btn-outline-primary btn-sm ms-1"
-              onClick={() => aumentarCantidad(item.id)}
+              onClick={() => aumentarCantidad(item)}
             >
               +
             </button>
@@ -66,7 +57,7 @@ const Cart = () => {
       ))}
 
       <div className="mt-4">
-        <h5>Total: ${calcularTotal().toLocaleString()}</h5>
+        <h5>Total: ${total.toLocaleString()}</h5>
       </div>
 
       <button className="btn btn-dark mt-3 w-30">Pagar</button>
