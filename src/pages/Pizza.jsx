@@ -1,13 +1,15 @@
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Pizza = () => {
+  const { id } = useParams();
   const [pizza, setPizza] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPizza = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/pizzas/p001");
+        const res = await fetch(`http://localhost:5000/api/pizzas/${id}`); // 👈 usamos el ID dinámico
         const data = await res.json();
         setPizza(data);
         setLoading(false);
@@ -17,7 +19,7 @@ const Pizza = () => {
     };
 
     fetchPizza();
-  }, []);
+  }, [id]);
 
   if (loading) return <p>Cargando pizza...</p>;
   if (!pizza) return <p>No se encontró la pizza.</p>;
@@ -32,6 +34,7 @@ const Pizza = () => {
       <button className="btn btn-primary mt-3">Añadir al carrito 🛒</button>
     </div>
   )
-};
+}
+
 export default Pizza;
 

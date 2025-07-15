@@ -1,4 +1,5 @@
 import { useCart } from "../components/Context/CartContext.jsx";
+import { useUser } from "../components/Context/UserContext";
 
 const Cart = () => {
   const {
@@ -8,6 +9,8 @@ const Cart = () => {
     updateQuantity,
     removeFromCart
   } = useCart();
+
+  const { token } = useUser();
 
   const restarCantidad = (id, currentQty) => {
     if (currentQty <= 1) {
@@ -60,7 +63,15 @@ const Cart = () => {
         <h5>Total: ${total.toLocaleString()}</h5>
       </div>
 
-      <button className="btn btn-dark mt-3 w-30">Pagar</button>
+      <button className="btn btn-dark mt-3 w-30" disabled={!token}>
+        Pagar
+      </button>
+
+      {!token && (
+        <p className="text-danger mt-2">
+          Debes iniciar sesión para realizar el pago.
+        </p>
+      )}
     </div>
   )
 }

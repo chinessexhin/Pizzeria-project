@@ -1,13 +1,8 @@
-import React from "react";
-import { useCart } from "../Context/CartContext.jsx";
+import { Link } from "react-router-dom";
+import { useCart } from '../Context/CartContext';
 
 const CardPizza = ({ id, img, title, text, price }) => {
   const { addToCart } = useCart();
-
-  const handleAdd = () => {
-    const pizza = { id, title, price };
-    addToCart(pizza);
-  };
 
   return (
     <div className="card">
@@ -15,11 +10,16 @@ const CardPizza = ({ id, img, title, text, price }) => {
       <div className="card-body">
         <h5 className="card-title">{title}</h5>
         <p className="card-text">{text}</p>
-        <p className="card-text">${price.toLocaleString()}</p>
+        <p className="card-text">${price}</p>
+
         <div className="button-container">
-          <button type="button" className="btn btn-dark" onClick={handleAdd}>
-            ➕ Añadir
+          <button onClick={() => addToCart({ id, title, price, img })} className="btn btn-dark">
+            Añadir
           </button>
+
+          <Link to={`/pizza/${id}`} className="btn btn-outline-primary">
+            Ver más
+          </Link>
         </div>
       </div>
     </div>

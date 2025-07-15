@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useCart } from './Context/CartContext.jsx';
+import { useUser } from './Context/UserContext.jsx'; 
 
 const Navbar = () => {
   const { total, quantity } = useCart();
+  const { token, logout } = useUser(); 
 
   return (
     <nav className="navbar navbar-dark bg-dark px-4">
@@ -14,8 +16,17 @@ const Navbar = () => {
           </Link>
           <Link to="/" className="btn btn-dark">🍕 Home</Link>
           <Link to="/profile" className="btn btn-dark">👤 Profile</Link>
-          <Link to="/login" className="btn btn-dark">🔐 Login</Link>
-          <Link to="/register" className="btn btn-dark">📝 Register</Link>
+
+          {token ? (
+            <button onClick={logout} className="btn btn-outline-warning">
+              🔓 Cerrar sesión
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-dark">🔐 Login</Link>
+              <Link to="/register" className="btn btn-dark">📝 Register</Link>
+            </>
+          )}
         </div>
 
         <div>
@@ -25,7 +36,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
 export default Navbar;
