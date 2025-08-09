@@ -1,5 +1,7 @@
+import { useState, useEffect } from "react";
 import { useCart } from "../components/Context/CartContext.jsx";
-import { useUser } from "../components/Context/UserContext";
+import { useUser } from "../components/Context/UserContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const {
@@ -7,10 +9,14 @@ const Cart = () => {
     total,
     addToCart,
     updateQuantity,
-    removeFromCart
+    removeFromCart,
+    clearCart
   } = useCart();
 
   const { token } = useUser();
+  const navigate = useNavigate();
+
+  const [mensajeExito, setMensajeExito] = useState("");
 
   const restarCantidad = (id, currentQty) => {
     if (currentQty <= 1) {
@@ -24,9 +30,49 @@ const Cart = () => {
     addToCart(item);
   };
 
+  const handleCheckout = async () => {
+    if (!token) {
+      alert("Debes estar logueado para realizar el pago.");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/checkouts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ cart: cartItems })
+      });
+
+      if (!response.ok) throw new Error("Error al procesar el checkout");
+
+      const data = await response.json();
+
+      setMensajeExito(" ¡Compra realizada!");
+      clearCart();
+    } catch (error) {
+      console.error("Error al hacer checkout:", error.message);
+      alert("❌ Ocurrió un error al procesar tu compra.");
+    }
+  };
+
+  useEffect(() => {
+    if (mensajeExito) {
+      const timer = setTimeout(() => setMensajeExito(""), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [mensajeExito]);
+
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
       <h4 className="mb-4">Detalles del pedido:</h4>
+
+      {mensajeExito && (
+        <div className="alert alert-success">{mensajeExito}</div>
+      )}
 
       {cartItems.map((item) => (
         <div key={item.id} className="d-flex align-items-center mb-3">
@@ -63,7 +109,11 @@ const Cart = () => {
         <h5>Total: ${total.toLocaleString()}</h5>
       </div>
 
-      <button className="btn btn-dark mt-3 w-30" disabled={!token}>
+      <button
+        className="btn btn-dark mt-3 w-30"
+        onClick={handleCheckout}
+        disabled={!token || cartItems.length === 0}
+      >
         Pagar
       </button>
 

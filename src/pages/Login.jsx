@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useUser } from "../components/Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useUser();
+  const navigate = useNavigate();
 
-  const validarDatos = (e) => {
+  const validarDatos = async (e) => {
     e.preventDefault();
 
     if (email === '' || password === '') {
@@ -17,7 +21,14 @@ const Login = () => {
       return;
     }
 
-    window.alert("Hola de vuelta!");
+    const success = await login({ email, password });
+
+    if (success) {
+      window.alert("Login exitoso");
+      navigate("/profile");
+    } else {
+      window.alert("No es Correcto");
+    }
 
     setEmail('');
     setPassword('');

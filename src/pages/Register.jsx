@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useUser } from "../components/Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [nombre, setNombre] = useState("");
@@ -6,7 +8,10 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const validarDatos = (e) => {
+  const { register } = useUser();
+  const navigate = useNavigate();
+
+  const validarDatos = async (e) => {
     e.preventDefault();
 
     if (nombre === '' || email === '' || password === '' || confirmPassword === '') {
@@ -24,7 +29,14 @@ const Register = () => {
       return;
     }
 
-    window.alert("Cuenta creada exitosamente!");
+    const success = await register({ email, password });
+
+    if (success) {
+      window.alert("Cuenta creada exitosamente!");
+      navigate("/profile");
+    } else {
+      window.alert("Error al crear la cuenta.");
+    }
 
     setNombre('');
     setEmail('');
@@ -89,7 +101,7 @@ const Register = () => {
         </div>
       </div>
     </div>
-  )
+ )
 }
 
 export default Register;

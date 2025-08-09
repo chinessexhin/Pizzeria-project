@@ -1,10 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from './Context/CartContext.jsx';
 import { useUser } from './Context/UserContext.jsx'; 
 
 const Navbar = () => {
   const { total, quantity } = useCart();
   const { token, logout } = useUser(); 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();          
+    navigate("/");       
+  };
 
   return (
     <nav className="navbar navbar-dark bg-dark px-4">
@@ -18,7 +24,7 @@ const Navbar = () => {
           <Link to="/profile" className="btn btn-dark">👤 Profile</Link>
 
           {token ? (
-            <button onClick={logout} className="btn btn-outline-warning">
+            <button onClick={handleLogout} className="btn btn-outline-warning">
               🔓 Cerrar sesión
             </button>
           ) : (

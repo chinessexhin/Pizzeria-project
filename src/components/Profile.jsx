@@ -1,19 +1,25 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "./Context/UserContext";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { email, logout, getProfile, profile } = useUser();
 
-  const userEmail = "usuario@ejemplo.com";
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   const handleLogout = () => {
-    console.log("Sesión cerrada");
+    logout();
     navigate("/login");
   };
 
   return (
     <div className="container text-center p-5">
       <h2>👤 Perfil de usuario</h2>
-      <p>Email: <strong>{userEmail}</strong></p>
+
+      <p>Email: <strong>{profile?.email || email || "Cargando..."}</strong></p>
 
       <button className="btn btn-danger mt-3" onClick={handleLogout}>
         🔓 Cerrar sesión
